@@ -25,3 +25,23 @@ class Sim:
         for p in self.pool:
             p.print_contents()
             print("===")
+
+    def run_sim(self):
+        for i in range(1): # a draft is 3 rounds
+            self.run_round()
+            if i <2:
+                self.generateStartingPool()
+        self.print_player_pools()
+
+    def run_round(self):
+        offset = 0
+        while self.pool[0].get_size() > 0:
+            offset %= len(self.players)
+            for i in range(len(self.players)):
+                p = self.players[i]
+                p.pick_card(self.pool[(i+offset)%len(self.players)])
+
+    def print_player_pools(self):
+        for p in self.players:
+            p.print_pool()
+            

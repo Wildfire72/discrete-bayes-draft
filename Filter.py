@@ -7,9 +7,17 @@ class Filter(Player):
     
     def __init__(self):
         self.pool = []
-
-    def get_color_combo(self):
-        return ["U","B"]
+        self.color_combo=["U","B"]
 
     def pick_card(self,pack):
-        self.pool.append(pack.pick(0))
+        #self.pool.append(pack.pick(0))
+        super().pick_card(pack)
+
+    def print_pool(self):
+        pool = self.get_pool()
+        d = {"W":0,"U":0,"B":0,"R":0,"G":0}
+        for c in pool:
+            d[c]+=1
+        cc = self.get_color_combo()
+        print(f"Filter's color combo: {cc[0]}{cc[1]}")
+        print(f"W:{d['W']}, U:{d['U']}, B:{d['U']}, R:{d['R']}, G:{d['G']}")
