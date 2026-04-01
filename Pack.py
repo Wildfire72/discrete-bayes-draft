@@ -9,6 +9,7 @@ class Pack:
     def __init__(self,sim):
         self.sim = sim
         self.generate_pack()
+        #print(self.contents)
 
     def print_contents(self):
         for c in self.contents:
@@ -22,8 +23,14 @@ class Pack:
         for i in range(10):
             self.contents.append(colors[i%5])
 
-    def pick(self,index):
-        return self.contents.pop(index)
+    def pick(self,index,p=False):
+        if p:
+            print(f"contents = {self.contents}")
+        temp = self.contents.pop(index)
+        if p:
+            print(f"new contents = {self.contents}")
+        #print(f"temp = {temp}")
+        return temp
 
     def at(self,index):
         return self.contents[index]

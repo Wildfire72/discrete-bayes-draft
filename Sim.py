@@ -40,6 +40,7 @@ class Sim:
             for i in range(len(self.players)):
                 p = self.players[i]
                 p.pick_card(self.pool[(i+offset)%len(self.players)])
+            offset+=1
 
     def print_player_pools(self):
         for p in self.players:
