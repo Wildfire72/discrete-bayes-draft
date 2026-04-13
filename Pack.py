@@ -37,3 +37,17 @@ class Pack:
 
     def get_size(self):
         return len(self.contents)
+
+    def get_most_color(self):
+        c = {'W':0,'U':0,'B':0,'R':0,'G':0}
+        for i in self.contents:
+            c[i] +=1
+        maxColors = ['W']
+        for i in c.keys():
+            if i=='W':
+                continue
+            if c[i] > c[maxColors[0]]:
+                maxColors = [i]
+            elif c[i] == c[maxColors[0]]:
+                maxColors.append(i)
+        return maxColors
