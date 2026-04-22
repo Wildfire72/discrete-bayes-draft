@@ -51,5 +51,11 @@ class Player:
         print(f"Player's color combo: {cc[0]}{cc[1]}")
         print(f"Pool size: {len(self.get_pool())}")
         print(f"W:{d['W']}, U:{d['U']}, B:{d['B']}, R:{d['R']}, G:{d['G']}")
+
+    def get_pool_breakdown(self):
+        d = {"W":0,"U":0,"B":0,"R":0,"G":0}
+        for c in self.pool:
+            d[c]+=1
+        return d
                 
                   

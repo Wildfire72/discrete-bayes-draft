@@ -6,22 +6,54 @@ from Filter import Filter
 import matplotlib.pyplot as plt
 import numpy as np
 
-me = Filter()
-sim = Sim(18,1,me)
+num_rounds = 3
+seed = 18
+
+#"""#
+seeds = np.arange(0,200)
+avg_difs = np.empty(len(seeds))
+for seed in range(len(seeds)):
+    me = Filter(num_rounds)
+    sim = Sim(seed,7,me,num_rounds)
+    #sim.print_pool()
+    sim.run_sim()
+    w,u,b,r,g = me.get_filter()
+    w1,u1,b1,r1,g1 = sim.get_filter()
+    difs = np.empty(len(w))
+    for i in range(len(w)):
+        dif = abs(w1[i]-w[i])+abs(u1[i]-u[i])+abs(b1[i]-b[i])
+        dif += abs(r1[i]-r[i])+abs(g1[i]-g[i])
+        difs[i] = dif
+    avg_difs[seed] = np.mean(difs)
+
+#parameter sweep
+plt.plot(seeds,avg_difs)
+plt.xlabel("Seed")
+plt.ylabel("Average Difference")
+plt.title("Average Difference")
+plt.show()
 
 
+"""
+#single iteration
+me = Filter(num_rounds)
+sim = Sim(seed,7,me,num_rounds,True)
 #sim.print_pool()
-
 sim.run_sim()
-
+    
 w,u,b,r,g = me.get_filter()
-w1,u1,b1,r1,g1 = sim.get_averages()
+w1,u1,b1,r1,g1 = sim.get_filter()
 t = np.arange(0,len(w),1)
 
 difs = np.empty(len(t))
 for i in range(len(t)):
-    difs[i] = (w1[i]-w[i]+u1[i]-u[i]+b1[i]-b[i]+r1[i]-r[i]+g1[i]-g[i])
+    dif = abs(w1[i]-w[i])+abs(u1[i]-u[i])+abs(b1[i]-b[i])
+    dif += abs(r1[i]-r[i])+abs(g1[i]-g[i])
+    difs[i] = dif
 #print(f"len(w) = {len(w)}, len(t) = {len(t)}")
+
+#for i in range(len(u1)):
+#    print(f"At Pick {i}, the Simulation believes blue is {u1[i]}% open.")
 
 fig, axs = plt.subplots(nrows=3, ncols=2,figsize=(11,9))
 w_ax = axs[0][0]
@@ -59,8 +91,10 @@ w_ax.set_title("White Belief")
 u_ax.set_title("Blue Belief")
 b_ax.set_title("Black Belief")
 r_ax.set_title("Red Belief")
-g_ax.set_xlabel("Green Belief")
-dif_ax.set_xlabel("Difference Between Real and Predicted")
+g_ax.set_title("Green Belief")
+dif_ax.set_title("Absolute Error Between Real and Predicted")
 
 fig.tight_layout()
 plt.show()
+"""
+

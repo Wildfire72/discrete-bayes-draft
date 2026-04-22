@@ -6,13 +6,14 @@ import numpy as np
 
 class Filter(Player):
     
-    def __init__(self):
+    def __init__(self,num_rounds):
         self.pool = []
         self.color_combo=["U","B"]
         self.p=False
         self.prev = [0.2,0.2,0.2,0.2,0.2] #start with uniform belief
         self.bels = {}
         self.index = 0
+        self.num_rounds = num_rounds
 
     def pick_card(self,pack):
         #self.pool.append(pack.pick(0))
@@ -37,17 +38,19 @@ class Filter(Player):
     def get_likelihood(self,pack):
         colors = pack.get_most_color()
         const = 1/pack.get_size()
-        likelihood = [max(1/2 - const,0) for i in range(5)]
+        floor = .4
+        ceiling = .6
+        likelihood = [max(1/2 - const,floor) for i in range(5)]
         if 'W' in colors:
-            likelihood[0] = min(1/2+const,1)
+            likelihood[0] = min(1/2+const,ceiling)
         if 'U' in colors:
-            likelihood[1] = min(1/2+const,1)
+            likelihood[1] = min(1/2+const,ceiling)
         if 'B' in colors:
-            likelihood[2] = min(1/2+const,1)
+            likelihood[2] = min(1/2+const,ceiling)
         if 'R' in colors:
-            likelihood[3] = min(1/2+const,1)
+            likelihood[3] = min(1/2+const,ceiling)
         if 'G' in colors:
-            likelihood[4] = min(1/2+const,1)
+            likelihood[4] = min(1/2+const,ceiling)
         return likelihood
 
     def predict(self):
@@ -86,7 +89,7 @@ class Filter(Player):
         blacks = []
         reds = []
         greens = []
-        for i in range(39):
+        for i in range(13*self.num_rounds):
             step = self.bels[i]
             #print(f"step = {step}")
             whites.append(step[0])
