@@ -45,12 +45,22 @@ class Sim:
         return final_motion
 
     def get_motion(self):
-        return self.motion
+        motion = self.motion.copy()
+        smallest = np.min(motion) #add noise
+        rand1 = self.random.uniform(0,smallest)
+        rand2 = self.random.uniform(0,smallest/2)
+        #print(f"smallest = {smallest}")
+        #print(f"rand1 = {rand1}")
+        motion[self.random.randint(0,4)] += rand1
+        motion[self.random.randint(0,4)] -= rand1
+        motion[self.random.randint(0,4)] += rand2
+        motion[self.random.randint(0,4)] -= rand2
+        return motion
 
-    def get_motion(self,bin_num):
+    """def get_motion(self,bin_num):
         l = [0.1 for i in range(5)]
         l[bin_num] = 0.6
-        return l
+        return l"""
 
     def get_likelihood(self):
         self.average_packs()
@@ -73,7 +83,7 @@ class Sim:
         prev = self.prev
         bel_bar = np.zeros(5)
         for bin_num in range(5):
-            motion = self.get_motion(bin_num)
+            motion = self.get_motion()
             #print(f"motion is type {type(motion)}")
             for i in range(5):
                 bel_bar[i] += motion[i] * prev[bin_num]

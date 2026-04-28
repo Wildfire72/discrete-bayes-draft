@@ -7,10 +7,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 num_rounds = 3
-seed = 18
+seed = 1891
 
-#"""#
-seeds = np.arange(0,200)
+#"""# <-- uncomment/comment this line to switch between single iteration and suite
+seeds = np.arange(300,600)
 avg_difs = np.empty(len(seeds))
 for seed in range(len(seeds)):
     me = Filter(num_rounds)
@@ -26,15 +26,16 @@ for seed in range(len(seeds)):
         difs[i] = dif
     avg_difs[seed] = np.mean(difs)
 
-#parameter sweep
+#suite
 plt.plot(seeds,avg_difs)
 plt.xlabel("Seed")
 plt.ylabel("Average Difference")
 plt.title("Average Difference")
+print(f"Total Average Difference = {np.mean(avg_difs)}")
 plt.show()
 
 
-"""
+""" #<-- leave this line
 #single iteration
 me = Filter(num_rounds)
 sim = Sim(seed,7,me,num_rounds,True)
@@ -53,7 +54,10 @@ for i in range(len(t)):
 #print(f"len(w) = {len(w)}, len(t) = {len(t)}")
 
 #for i in range(len(u1)):
-#    print(f"At Pick {i}, the Simulation believes blue is {u1[i]}% open.")
+#    print(f"At Pick {i}, the Filter believes black is {b[i]}% open.")
+
+#for i in range(len(u1)):
+#    print(f"At Pick {i}, black is {b1[i]}% open.")
 
 fig, axs = plt.subplots(nrows=3, ncols=2,figsize=(11,9))
 w_ax = axs[0][0]
@@ -96,5 +100,5 @@ dif_ax.set_title("Absolute Error Between Real and Predicted")
 
 fig.tight_layout()
 plt.show()
-"""
+"""# <-- comment/uncomment this line to switch functionality
 

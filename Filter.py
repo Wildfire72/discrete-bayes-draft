@@ -31,8 +31,8 @@ class Filter(Player):
         print(f"W:{d['W']}, U:{d['U']}, B:{d['B']}, R:{d['R']}, G:{d['G']}")
 
     def get_motion(self,bin_num):
-        l = [0.15 for i in range(5)]
-        l[bin_num] = 0.4
+        l = [0.1 for i in range(5)]
+        l[bin_num] = 0.6
         return l
 
     def get_likelihood(self,pack):
@@ -40,17 +40,17 @@ class Filter(Player):
         const = 1/pack.get_size()
         floor = .4
         ceiling = .6
-        likelihood = [max(1/2 - const,floor) for i in range(5)]
+        likelihood = [max(0.5 - const,floor) for i in range(5)]
         if 'W' in colors:
-            likelihood[0] = min(1/2+const,ceiling)
+            likelihood[0] = min(0.4+const,ceiling)
         if 'U' in colors:
-            likelihood[1] = min(1/2+const,ceiling)
+            likelihood[1] = min(0.4+const,ceiling)
         if 'B' in colors:
-            likelihood[2] = min(1/2+const,ceiling)
+            likelihood[2] = min(0.4+const,ceiling)
         if 'R' in colors:
-            likelihood[3] = min(1/2+const,ceiling)
+            likelihood[3] = min(0.4+const,ceiling)
         if 'G' in colors:
-            likelihood[4] = min(1/2+const,ceiling)
+            likelihood[4] = min(0.4+const,ceiling)
         return likelihood
 
     def predict(self):
